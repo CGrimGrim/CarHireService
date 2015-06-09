@@ -13,6 +13,7 @@ public class Customer {
 	private String drivingLicenseNum;
 	private LocalDate dateOfBirth;
 	private String name;
+	private boolean authenticated;
 
 	public int getId() {
 		return id;
@@ -94,6 +95,14 @@ public class Customer {
 
 	public Customer() {
 		super();
+	}
+	
+	public boolean isAuthenticated(){
+		return authenticated;
+	}
+	
+	public void setAuthenticated(boolean value){
+		authenticated = value;
 	}
 
 }
