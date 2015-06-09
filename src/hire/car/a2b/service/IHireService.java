@@ -19,7 +19,7 @@ interface IHireService {
 	
 	/**
 	 * list all of the invoices a customer has
-	 * @param customerID customer whos inmvoices are needed
+	 * @param customerID customer whos invoices are needed
 	 * @return all invoices for the specified customer
 	 */
 	public abstract ArrayList<Invoice> listCustomersInvoices(int customerID);

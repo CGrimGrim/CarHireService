@@ -1,6 +1,7 @@
 package hire.car.a2b.dao;
 
 import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public interface IDataLink {
 
@@ -13,7 +14,8 @@ public interface IDataLink {
 	/**
 	 * Adds a customer to the database
 	 */
-	public abstract void insertCustomerDetails();
+	public abstract void insertCustomerDetails(String username, String password, String name,
+			LocalDate DOB, String[] address, int contactNumber);
 	
 	
 	/**
@@ -42,5 +44,6 @@ public interface IDataLink {
 	 * @return resultset of user info
 	 */
 	public abstract ResultSet getUserInfo(String username);
+	
 	
 }
