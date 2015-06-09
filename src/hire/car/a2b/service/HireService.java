@@ -18,7 +18,7 @@ public class HireService implements IHireService {
 	@Override
 	public void registerCustomer(String username, String password, String name,
 			LocalDate DOB, String[] address, int contactNumber) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
