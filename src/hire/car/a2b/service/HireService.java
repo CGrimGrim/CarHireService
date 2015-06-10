@@ -38,7 +38,19 @@ public class HireService implements IHireService {
 			}
 			else{
 				while(rs.next()){
-					Invoice i = new Invoice();
+					String[] address = {rs.getString("address_line_1"),rs.getString("address_line_2"),
+							rs.getString("city"),rs.getString("postcode")};
+					
+					Customer customer = new Customer(rs.getString("fname")+" "+rs.getString("lname"), address);
+					
+					Car car = new Car(rs.getString("registration_num"), rs.getString("make"), rs.getString("model"), 
+							rs.getString("fuel_type").charAt(0),rs.getDouble("engine_size"), 
+							rs.getString("group_name"), rs.getDouble("daily_rate"));
+					
+					Invoice i = new Invoice(rs.getInt("id"),rs.getDate("start_date").toLocalDate(),
+							rs.getDate("end_date").toLocalDate(),car,customer,
+							rs.getInt("number_of_days"),rs.getDouble("daily_rate"),rs.getDouble("total_cost"));
+					
 					invoiceList.add(i);
 				}
 			}
@@ -63,9 +75,9 @@ public class HireService implements IHireService {
 			}
 			else{
 				while(rs.next()){
-					Car car = new Car(rs.getString(1),rs.getString(2),rs.getString(3),
-							rs.getString(4).charAt(0),rs.getDouble(5),false,rs.getDouble(6),rs.getInt(7),
-							rs.getString(8));
+					Car car = new Car(rs.getString("registration_num"),rs.getString("make"),rs.getString("model"),
+							rs.getString("fuel_type").charAt(0),rs.getDouble("engine_size"),false,
+							rs.getDouble("daily_rate"),rs.getInt("group_id"), rs.getString("group_name"));
 					carList.add(car);
 				}
 			}
@@ -87,9 +99,9 @@ public class HireService implements IHireService {
 			}
 			else{
 				while(rs.next()){
-					Car car = new Car(rs.getString(1),rs.getString(2),rs.getString(3),
-							rs.getString(4).charAt(0),rs.getDouble(5),true,rs.getDouble(6),rs.getInt(7),
-							rs.getString(8));
+					Car car = new Car(rs.getString("registration_num"),rs.getString("make"),rs.getString("model"),
+							rs.getString("fuel_type").charAt(0),rs.getDouble("engine_size"),true,
+							rs.getDouble("daily_rate"),rs.getInt("group_id"), rs.getString("group_name"));
 					carList.add(car);
 				}
 			}
@@ -111,7 +123,7 @@ public class HireService implements IHireService {
 			}
 			else{
 				while(rs.next()){
-					Group g = new Group(rs.getInt(1),rs.getString(2));
+					Group g = new Group(rs.getInt("id"),rs.getString("group_name"));
 					groupList.add(g);
 				}
 			}
@@ -133,8 +145,12 @@ public class HireService implements IHireService {
 			else{
 				rs.next();
 				if(passwordEntered.equals(rs.getString(3))){
-					String[] address = {rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)};
-					return new Customer(rs.getInt(1),rs.getString(2),rs.getString(3),address,rs.getString(8),rs.getDate(9).toLocalDate(),rs.getString(10)+" "+rs.getString(11), true);
+					String[] address = {rs.getString("address_line_1"),rs.getString("address_line_2"),
+							rs.getString("city"),rs.getString("postcode")};
+					return new Customer(rs.getInt("id"),rs.getString("uname"),rs.getString("pword"),
+							address,rs.getString("driving_licence_number"),
+							rs.getDate("date_of_birth").toLocalDate(),rs.getString("fname")+" "+rs.getString("lname"), 
+							true);
 				}
 			}
 			

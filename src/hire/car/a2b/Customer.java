@@ -126,6 +126,12 @@ public class Customer {
 		this.password = password;
 		this.authenticated = authenticated;
 	}
+	
+	public Customer(String name, String[] address){
+		super();
+		this.name = name;
+		this.address = address;
+	}
 
 	public Customer() {
 		super();
