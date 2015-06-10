@@ -2,6 +2,7 @@ package hire.car.a2b.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +13,12 @@ public class DataLink implements IDataLink {
 
 	public DataLink() {
 		try {
-			Class.forName("com.mysql.JDBC.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/carhireservice", "root", "");
 		} catch (Exception e) {
+			System.out.println("Exception occured: " + e.getMessage());
+			System.out.println("Exception occured: " + e.getCause());
+			e.printStackTrace();
 		}
 	}
 
@@ -36,6 +41,7 @@ public class DataLink implements IDataLink {
 			statement.setInt(9, contactNumber);
 			statement.execute();
 		} catch (SQLException e) {
+			System.out.println("Exception occured: " + e.getMessage());
 		}
 	}
 
@@ -47,6 +53,7 @@ public class DataLink implements IDataLink {
 					.prepareStatement("call list_vehicle_groups();");
 			rs = statement.executeQuery();
 		} catch (SQLException e) {
+			System.out.println("Exception occured: " + e.getMessage());
 		}
 
 		return rs;
@@ -57,10 +64,9 @@ public class DataLink implements IDataLink {
 	public ResultSet getAllCarsOnHire() {
 		ResultSet rs = null;
 		try {
-			return connection.prepareStatement(
-					"SELECT * FROM vehicles WHERE is_on_hire= true")
-					.executeQuery();
+			return connection.prepareStatement("SELECT * FROM vehicles WHERE is_on_hire= true").executeQuery();
 		} catch (SQLException e) {
+			System.out.println("Exception occured: " + e.getMessage());
 		}
 		return rs;
 	}
@@ -69,39 +75,37 @@ public class DataLink implements IDataLink {
 	public ResultSet getAllAvailableCars() {
 		ResultSet rs = null;
 		try {
-			return connection.prepareStatement(
-					"select * from cars_currently_available;").executeQuery();
+			return connection.prepareStatement("select * from vehicles_currently_available;").executeQuery();
 
 		} catch (SQLException e) {
+			System.out.println("Exception occured: " + e.getMessage());
 		}
 		return rs;
 
 	}
 
 	@Override
-	public ResultSet getAllCustomerInvoices(int customerID) {
-		ResultSet rs = null;
-		try {
-			PreparedStatement statement = connection
-					.prepareStatement("call list_customer_invoices(?);");
+	public ResultSet getAllCustomerInvoices(int customerID) throws SQLException {
+		//try {
+			PreparedStatement statement = connection.prepareStatement("call list_customer_invoices(?);");
 			statement.setInt(1, customerID);
-			rs = statement.executeQuery();
-		} catch (SQLException e) {
-		}
+			return statement.executeQuery();
+		/*} catch (Exception e) {
+			System.out.println("Exception occured: " + e.getMessage());
+		}*/
 
-		return rs;
 	}
 
 	@Override
 	public ResultSet getUserInfo(String username) {
 		ResultSet rs = null;
 		try {
-			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM customer WHERE uname=?");
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM customer WHERE uname=?");
 			statement.setString(1, username);
-			rs = statement.executeQuery();
+			return statement.executeQuery();
 
 		} catch (SQLException e) {
+			System.out.println("Exception occured: " + e.getMessage());
 		}
 
 		return rs;

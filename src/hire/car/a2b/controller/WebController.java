@@ -63,6 +63,14 @@ public class WebController extends HttpServlet {
 			getUnavailableVehicles(request, response);
 			response.sendRedirect("available.jsp");
 			break;
+		case 4:
+			request.getSession().removeAttribute("CurrentUser");
+			response.sendRedirect("home.jsp");
+			break;
+		case 5:
+			customerInvoices(request, response);
+			response.sendRedirect("invoices.jsp");
+			break;
 		default:
 			break;
 		}
@@ -72,7 +80,18 @@ public class WebController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		int code = Integer.parseInt(request.getParameter("code"));
+		switch(code){
+		case 1: //login 
+			validateCustomer(request, response);
+			response.sendRedirect("login.jsp");
+			break;
+		case 2: //register
+			registerCustomer(request,response);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	
@@ -94,4 +113,21 @@ public class WebController extends HttpServlet {
 		session.setAttribute("UnavailableCars", unavailableCars);
 	}
 
+	public void registerCustomer(HttpServletRequest request, HttpServletResponse response){
+		
+	}
+	
+	public void validateCustomer(HttpServletRequest request, HttpServletResponse response){
+		Customer cust = srv.validateCustomer(request.getParameter("username"), request.getParameter("password"));
+		HttpSession session = request.getSession(true);
+		session.setAttribute("CurrentUser", cust);
+	}
+	
+	public void customerInvoices(HttpServletRequest request, HttpServletResponse response){
+		HttpSession session = request.getSession();
+		Customer cust = (Customer)session.getAttribute("CurrentUser");
+		System.out.println("Customer ID: " + cust.getId());
+		ArrayList<Invoice> invoices = srv.listCustomersInvoices(cust.getId());
+		session.setAttribute("CustomerInvoices", invoices);
+	}
 }

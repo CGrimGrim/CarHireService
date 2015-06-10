@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+ <%@ page import="hire.car.a2b.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,11 +20,35 @@
 			<li class="active"> <a href=#login data-toggle="tab">Login</a></li>
 			<li> <a href=#register data-toggle="tab">Register</a></li>
 		</ul>
+		<%
+			HttpSession currentSession = request.getSession(true);
+		    Customer currentUser = (Customer)currentSession.getAttribute("CurrentUser");
+		   	if(currentUser != null){
+		   		if(!currentUser.isAuthenticated()){
+		   			out.println("<div class='alert alert-danger text-center' role=alert>Login Failed: Username and/or Password is incorrect</div>");
+		   		}
+		   		else{
+		   			response.sendRedirect("home.jsp");
+		   		}
+		   	}
+		   	
+		   	
+			if(request.getParameter("code") != null){
+		   		if(request.getParameter("username").equals("")){
+		   			out.println("<div class='alert alert-warning text-center' role=alert>Oops! looks like you didnt enter your Username</div>");
+		   		}
+		   		else if(request.getParameter("password").equals("")){
+		   			out.println("<div class='alert alert-warning text-center' role=alert>Oops! looks like you didnt enter your Password</div>");
+		   		   	
+		   		}
+		   		
+		   	}
+		%>
 		</div><br>
 		<div class="tab-content">
 		<!--  Login Control -->
 		<br><br><div class="col-sm-12 col-sm-offset-2 tab-pane fade active in" id="login">
-			<form class="form-horizontal">
+			<form class="form-horizontal" action="http://localhost:8080/A2BCarHire/WebController" method="post">
 				<div class="form-group">
 					    <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
 					    <div class="col-sm-4">
@@ -50,6 +75,7 @@
 					      <button type="submit" class="btn btn-primary col-sm-4">Sign in</button>
 					    </div>
 					  </div>
+				<input type=hidden name=code value=1>
 			</form>
 		</div>
 		
@@ -106,6 +132,7 @@
 					<div class="col-sm-6 col-sm-offset-2">
 						<input type=submit class="btn btn-primary btn-block" value="Register">
 					</div>
+					<input type=hidden name=code value=2>
 					</form>
 				</div>
 			</div>

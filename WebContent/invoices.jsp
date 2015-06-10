@@ -16,17 +16,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <%
-	HttpSession currentSession = request.getSession(false);
-	ArrayList<Car> listCars = null;
-	String title = "Results";
-	if(currentSession.getAttribute("AvailableCars") != null){
-		listCars = (ArrayList<Car>)currentSession.getAttribute("AvailableCars");
-		title = "Cars available today";
+	HttpSession currentSession = request.getSession();
+	ArrayList<Invoice> listInvoices = null;
+	if(currentSession.getAttribute("CustomerInvoices") != null){
+		listInvoices = (ArrayList<Invoice>)currentSession.getAttribute("CustomerInvoices");
 	}
-	else if(currentSession.getAttribute("UnavailableCars") != null){
-		listCars = (ArrayList<Car>)currentSession.getAttribute("UnavailableCars");
-		title = "Cars currently on hire";
-	}
+	
 %>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -73,33 +68,30 @@
   </div><!-- /.container-fluid -->
 </nav>
 <div class="row">
-	<div class="col-sm-10 col-sm-offset-1 table-responsive">
+	<div class="col-sm-10 col-sm-offset-1">
 		<table class="table table-striped">
 			<thead>
-				<th>Registration Number</th>
-				<th>Make</th>
-				<th>Model</th>
-				<th>Fuel type</th>
-				<th>Engine size</th>
-				<th>Group name</th>
-				<th>Daily rate</th>
+				<th>ID</th>
+				<th>Vehicle Details</th>
+				<th>Duration</th>
+				<th>Cost</th>
+
 			</thead>
 				<%
-					if(listCars == null){
-						out.println("<tr align=center><td colspan=7>No results at this time</td></tr>");
+					if(listInvoices == null){
+						out.println("<tr align=center><td colspan=7>You have no invoices</td></tr>");
 					}
 					else{
 					 out.println("<tbody>");
-						for(Car c : listCars){
+						for(Invoice c : listInvoices){
 							out.println("<tr>");
-							out.println("<td>"+c.getRegistrationNumber()+"</td>");
-							out.println("<td>"+c.getMake()+"</td>");
-							out.println("<td>"+c.getModel()+"</td>");
-							out.println("<td>"+c.getFuelType()+"</td>");
-							out.println("<td>"+c.getEngineSize()+"</td>");
-							out.println("<td>"+c.getGroupName()+"</td>");
-							out.println("<td>£"+c.getDailyRate()+"</td>");
-							out.println("</tr>");
+							out.println("<td>"+c.getInvoiceId()+"</td>");
+							out.println("<td><div><p>Registration : "+ c.getCarHired().getRegistrationNumber() +"</p><p>Make: " + c.getCarHired().getMake()
+											+"<p>Model: " + c.getCarHired().getModel()+"</p><p>Fuel type: " + c.getCarHired().getFuelType() +"</p>"+
+											"<p>Engine size: "+ c.getCarHired().getEngineSize() +"</p></div></td>");
+							out.println("<td><div><p>Hire Start: "+ c.getDateOut() +"</p><p>Hire End: " + c.getDateIn()
+									+"<p>Num of Days: " + c.getNumberOfDays()+"</p></div>");
+							out.println("<td><div><p>Daily Cost: £"+ c.getCostPerDay() +"</p><p>Total Cost: " + c.getTotalCost()+"</p></div>");
 						}
 					  out.println("</tbody>");
 					}

@@ -2,6 +2,7 @@ package hire.car.a2b.dao;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public interface IDataLink {
@@ -34,8 +35,9 @@ public interface IDataLink {
 	/**
 	 * Gets all of the invoices/rentals that a customer has ever taken out
 	 * @return All of the specified customers invoices
+	 * @throws SQLException 
 	 */
-	public abstract ResultSet getAllCustomerInvoices(int customerID);
+	public abstract ResultSet getAllCustomerInvoices(int customerID) throws SQLException, SQLException;
 	
 	
 	/**
