@@ -92,6 +92,46 @@ public class Customer {
 		this.dateOfBirth = dateOfBirth;
 		this.name = name;
 	}
+	
+	public Customer(int id, String username, String password,
+			String[] address, String drivingLicenseNum,
+			LocalDate dateOfBirth, String name) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.address = address;
+		this.drivingLicenseNum = drivingLicenseNum;
+		this.dateOfBirth = dateOfBirth;
+		this.name = name;
+	}
+	
+	public Customer(int id, String username, String password,
+			String[] address, String drivingLicenseNum,
+			LocalDate dateOfBirth, String name, boolean authenticated) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.address = address;
+		this.drivingLicenseNum = drivingLicenseNum;
+		this.dateOfBirth = dateOfBirth;
+		this.name = name;
+		this.authenticated = authenticated;
+	}
+	
+	public Customer(String username, String password, boolean authenticated){
+		super();
+		this.username = username;
+		this.password = password;
+		this.authenticated = authenticated;
+	}
+	
+	public Customer(String name, String[] address){
+		super();
+		this.name = name;
+		this.address = address;
+	}
 
 	public Customer() {
 		super();

@@ -70,7 +70,7 @@ public class DataLink implements IDataLink {
 		ResultSet rs = null;
 		try {
 			return connection.prepareStatement(
-					"call list_vehicles_available();").executeQuery();
+					"select * from cars_currently_available;").executeQuery();
 
 		} catch (SQLException e) {
 		}

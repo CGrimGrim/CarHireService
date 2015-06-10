@@ -98,6 +98,18 @@ public class Car {
 		this.groupId = groupId;
 		this.groupName = groupName;
 	}
+	
+	public Car(String registrationNumber, String make, String model,
+			char fuelType, double engineSize, String groupName, double dailyRate){
+		super();
+		this.registrationNumber = registrationNumber;
+		this.make = make;
+		this.model = model;
+		this.fuelType = fuelType;
+		this.engineSize = engineSize;
+		this.groupName = groupName;
+		this.dailyRate = dailyRate;
+	}
 
 	public Car() {
 		super();
