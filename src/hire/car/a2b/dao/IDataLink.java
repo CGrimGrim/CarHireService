@@ -15,7 +15,7 @@ public interface IDataLink {
 	/**
 	 * Adds a customer to the database
 	 */
-	public abstract void insertCustomerDetails(String username, String password, String name, Date DOB, String[] address_line_1, String[] address_line_2, String[] city, String[] postcode, int contactNumber);
+	public abstract void insertCustomerDetails(String username, String password, String name, Date DOB, String[] address, int contactNumber);
 	
 	
 	/**

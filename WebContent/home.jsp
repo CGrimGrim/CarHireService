@@ -10,7 +10,9 @@
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <title>Insert title here</title>
 </head>
-<body style="background-image: url(resources/CarBackgroundImage.jpg); background-size: 100%; background-repeat: no-repeat">
+<body style="background-image: url(resources/CarBackgroundImage.jpg); background-size: 100% auto; background-repeat: no-repeat">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
 <%
 	HttpSession currentSession = request.getSession(false);
 %>
@@ -49,20 +51,21 @@
 			out.println("<button type=button class='btn btn-default navbar-btn' onClick=login.jsp>Logout</button>");
       	}
       	else{
-      		out.println("<a href=login.jsp><button type=button class='btn btn-default navbar-btn'>Login/Register</button></a>");
+      		out.println("<button type=button class='btn btn-default navbar-btn'>Login</button>");
+      		out.println("<a href=#><button type=button class='btn btn-default navbar-btn'>Register</button>");
       	}
-      %>	
+      %>
       </div>
-      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+ 
 <div class="row">
 	<div class="col-sm-6">
 	</div>
-	<div class="col-sm-6">	
+	<div class="col-sm-6">		
 		<form class="col-sm-8 col-sm-offset-2">
-		<div class="panel panel-default" style="opacity: 0.85;">
+		<div class="panel panel-default" style="opacity: 0.82;">
 		<div class="panel-heading"> <h4 class="text-left">Hire a Car</h4> </div>
 		<div class="panel-body">
 			<div class="form-group">
@@ -91,6 +94,5 @@
 		</form>
 		</div>
  </div>
-
 </body>
 </html>

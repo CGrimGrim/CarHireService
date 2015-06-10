@@ -19,8 +19,7 @@ public class DataLink implements IDataLink {
 
 	@Override
 	public void insertCustomerDetails(String username, String password,
-			String name, Date DOB, String[] address_line_1,
-			String[] address_line_2, String[] city, String[] postcode,
+			String name, Date DOB, String[] address,
 			int contactNumber) {
 		try {
 
@@ -30,10 +29,10 @@ public class DataLink implements IDataLink {
 			statement.setString(2, password);
 			statement.setString(3, name);
 			statement.setDate(4, DOB);
-			statement.setString(5, address_line_1[0]);
-			statement.setString(6, address_line_2[1]);
-			statement.setString(7, city[2]);
-			statement.setString(8, postcode[3]);
+			statement.setString(5, address[0]);
+			statement.setString(6, address[1]);
+			statement.setString(7, address[2]);
+			statement.setString(8, address[3]);
 			statement.setInt(9, contactNumber);
 			statement.execute();
 		} catch (SQLException e) {
