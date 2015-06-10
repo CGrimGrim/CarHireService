@@ -38,6 +38,6 @@ interface IHireService {
 	
 	public abstract ArrayList<Group> getVehicleGroups();
 	
-	public abstract Customer validateCustomer();
+	public abstract Customer validateCustomer(String username, String passwordEntered);
 
 }
