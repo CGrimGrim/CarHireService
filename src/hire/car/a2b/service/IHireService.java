@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import hire.car.a2b.*;
 
-interface IHireService {
+public interface IHireService {
 
 	/**
 	 * Registers a customer

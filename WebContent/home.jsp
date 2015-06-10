@@ -35,15 +35,16 @@
       <ul class="nav navbar-nav">
        	<%
 		if(currentSession.getAttribute("CurrentUser") != null){
-			out.println("<li><a href=account.jsp>My Account</a></li>");
+			out.println("<ui><a href=account.jsp>My Account</a>"+"<li>Invoices</li>"+"<li>Change Password</li>"+
+					"</ui>");
 		}
 		else{
 			
 		}
 	%>
-        <li><a href="#">All Cars</a></li>
-        <li><a href="#">Available Cars</a></li> 
-        <li><a href="#">Unavailable Cars</a></li> 
+        <li><a href="Controller?code=1">All Cars</a></li>
+        <li><a href="Controller?code=2">Available Cars</a></li> 
+        <li><a href="Controller?code=3">Unavailable Cars</a></li> 
       </ul>
       <div class=navbar-right>
       <%
@@ -51,8 +52,7 @@
 			out.println("<button type=button class='btn btn-default navbar-btn' onClick=login.jsp>Logout</button>");
       	}
       	else{
-      		out.println("<button type=button class='btn btn-default navbar-btn'>Login</button>");
-      		out.println("<a href=#><button type=button class='btn btn-default navbar-btn'>Register</button>");
+      		out.println("<a href=login.jsp><button type=button class='btn btn-default navbar-btn'>Login/Register</button></a>");
       	}
       %>
       </div>
@@ -87,7 +87,7 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<input type="submit" class="btn btn-default btn-block" value="submit">
+				<input type="submit" class="btn btn-primary btn-block" value="submit">
 			</div>
 			</div>
 			 </div>
