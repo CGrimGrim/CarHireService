@@ -86,13 +86,14 @@ public class DataLink implements IDataLink {
 
 	@Override
 	public ResultSet getAllCustomerInvoices(int customerID) throws SQLException {
-		//try {
-			PreparedStatement statement = connection.prepareStatement("call list_customer_invoices(?);");
+		try {
+			PreparedStatement statement = connection.prepareStatement("call list_customer_invoices(?)");
 			statement.setInt(1, customerID);
 			return statement.executeQuery();
-		/*} catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println("Exception occured: " + e.getMessage());
-		}*/
+		}
+		return null;
 
 	}
 

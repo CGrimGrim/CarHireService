@@ -79,6 +79,35 @@ INSERT INTO `customer` VALUES (1,'SThomas','SThomas',0,'Sarah','Thomas','1992-10
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `full_invoice_info`
+--
+
+DROP TABLE IF EXISTS `full_invoice_info`;
+/*!50001 DROP VIEW IF EXISTS `full_invoice_info`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `full_invoice_info` AS SELECT 
+ 1 AS `id`,
+ 1 AS `fname`,
+ 1 AS `lname`,
+ 1 AS `address_line_1`,
+ 1 AS `address_line_2`,
+ 1 AS `city`,
+ 1 AS `postcode`,
+ 1 AS `hire_start`,
+ 1 AS `hire_end`,
+ 1 AS `registration_num`,
+ 1 AS `make`,
+ 1 AS `model`,
+ 1 AS `fuel_type`,
+ 1 AS `engine_size`,
+ 1 AS `group_name`,
+ 1 AS `daily_rate`,
+ 1 AS `num_of_days`,
+ 1 AS `total_cost`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `invoices`
 --
 
@@ -249,7 +278,9 @@ SET character_set_client = utf8;
  1 AS `model`,
  1 AS `fuel_type`,
  1 AS `engine_size`,
- 1 AS `group_name`*/;
+ 1 AS `group_id`,
+ 1 AS `group_name`,
+ 1 AS `daily_rate`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -268,6 +299,10 @@ SET character_set_client = utf8;
  1 AS `engine_size`,
  1 AS `group_name`*/;
 SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping events for database 'carhireservice'
+--
 
 --
 -- Dumping routines for database 'carhireservice'
@@ -365,6 +400,68 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_payment` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_payment`(payid int(5))
+BEGIN
+	DELETE FROM payment_info
+    WHERE payid=payment_info.id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_invoice` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_invoice`(in invoice_id int(10))
+BEGIN
+	SELECT * FROM full_invoice_info
+    WHERE full_invoice_info.id  = invoice_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_vehicle_details` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_vehicle_details`(regnum char(8))
+BEGIN
+	SELECT vehicles.registration_num, vehicles.make, vehicles.model , vehicles.fuel_type, vehicles.engine_size, vehicle_groups.group_name FROM vehicles
+    inner join vehicle_groups
+    on vehicle.group_id=vehicle_group.id
+    WHERE vehicles.registration_num=regnum;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `hires_by_user` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -442,6 +539,46 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPaymentInfo`(custid int(5),ca
 BEGIN
 	insert into payment_info
 	values(null,custid,cardtypeid,cardnum,cardexpire,cardauth);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `list_customer_invoices` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `list_customer_invoices`(cusid int)
+BEGIN
+	SELECT * FROM full_invoice_info 
+    WHERE cusid = (select customer.id from customer where customer.fname = full_invoice_info.fname AND customer.lname = full_invoice_info.lname AND customer.postcode = full_invoice_info.postcode);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `list_vehicle_groups` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `list_vehicle_groups`()
+BEGIN
+	
+	SELECT id,group_name FROM vehicle_groups;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -596,6 +733,24 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Final view structure for view `full_invoice_info`
+--
+
+/*!50001 DROP VIEW IF EXISTS `full_invoice_info`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `full_invoice_info` AS select `invoices`.`id` AS `id`,`customer`.`fname` AS `fname`,`customer`.`lname` AS `lname`,`customer`.`address_line_1` AS `address_line_1`,`customer`.`address_line_2` AS `address_line_2`,`customer`.`city` AS `city`,`customer`.`postcode` AS `postcode`,`invoices`.`hire_start` AS `hire_start`,`invoices`.`hire_end` AS `hire_end`,`vehicles`.`registration_num` AS `registration_num`,`vehicles`.`make` AS `make`,`vehicles`.`model` AS `model`,`vehicles`.`fuel_type` AS `fuel_type`,`vehicles`.`engine_size` AS `engine_size`,`vehicle_groups`.`group_name` AS `group_name`,`vehicle_groups`.`daily_rate` AS `daily_rate`,(to_days(`invoices`.`hire_end`) - to_days(`invoices`.`hire_start`)) AS `num_of_days`,((to_days(`invoices`.`hire_end`) - to_days(`invoices`.`hire_start`)) * `invoices`.`total_cost`) AS `total_cost` from (((`customer` join `invoices` on((`customer`.`id` = `invoices`.`customer_id`))) join `vehicles` on((`invoices`.`vehicle_id` = `vehicles`.`id`))) join `vehicle_groups` on((`vehicles`.`group_id` = `vehicle_groups`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `vehicles_currently_available`
 --
 
@@ -608,7 +763,7 @@ DELIMITER ;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `vehicles_currently_available` AS select `vehicles`.`registration_num` AS `registration_num`,`vehicles`.`make` AS `make`,`vehicles`.`model` AS `model`,`vehicles`.`fuel_type` AS `fuel_type`,`vehicles`.`engine_size` AS `engine_size`,`vehicle_groups`.`group_name` AS `group_name` from (`vehicles` join `vehicle_groups` on((`vehicles`.`group_id` = `vehicle_groups`.`id`))) where (`vehicles`.`is_on_hire` = 0) */;
+/*!50001 VIEW `vehicles_currently_available` AS select `vehicles`.`registration_num` AS `registration_num`,`vehicles`.`make` AS `make`,`vehicles`.`model` AS `model`,`vehicles`.`fuel_type` AS `fuel_type`,`vehicles`.`engine_size` AS `engine_size`,`vehicles`.`group_id` AS `group_id`,`vehicle_groups`.`group_name` AS `group_name`,`vehicle_groups`.`daily_rate` AS `daily_rate` from (`vehicles` join `vehicle_groups` on((`vehicles`.`group_id` = `vehicle_groups`.`id`))) where (`vehicles`.`is_on_hire` = 0) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -640,4 +795,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-09 17:13:19
+-- Dump completed on 2015-06-12 14:54:38

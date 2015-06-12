@@ -38,24 +38,19 @@ public class HireService implements IHireService {
 			}
 			else{
 				while(rs.next()){
-					String[] address = {rs.getString("address_line_1"),rs.getString("address_line_2"),
-							rs.getString("city"),rs.getString("postcode")};
-					
+					String[] address = {rs.getString("address_line_1"),rs.getString("address_line_2"), rs.getString("city"),rs.getString("postcode")};
 					Customer customer = new Customer(rs.getString("fname")+" "+rs.getString("lname"), address);
-					
-					Car car = new Car(rs.getString("registration_num"), rs.getString("make"), rs.getString("model"), 
-							rs.getString("fuel_type").charAt(0),rs.getDouble("engine_size"), 
-							rs.getString("group_name"), rs.getDouble("daily_rate"));
-					
-					Invoice i = new Invoice(rs.getInt("id"),rs.getDate("start_date").toLocalDate(),
-							rs.getDate("end_date").toLocalDate(),car,customer,
-							rs.getInt("number_of_days"),rs.getDouble("daily_rate"),rs.getDouble("total_cost"));
+					Car car = new Car(rs.getString("registration_num"), rs.getString("make"), rs.getString("model"), rs.getString("fuel_type").charAt(0),rs.getDouble("engine_size"), rs.getString("group_name"), rs.getDouble("daily_rate"));
+					Invoice i = new Invoice(rs.getInt("id"),rs.getDate("hire_start").toLocalDate(), rs.getDate("hire_end").toLocalDate(),car,customer,rs.getInt("num_of_days"),rs.getDouble("daily_rate"),rs.getDouble("total_cost"));
 					
 					invoiceList.add(i);
 				}
+				
+				return invoiceList;
+				
 			}
 			
-			return invoiceList;
+			
 		}
 		catch(Exception e){
 			

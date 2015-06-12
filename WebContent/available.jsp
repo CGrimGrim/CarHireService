@@ -47,25 +47,24 @@
       <ul class="nav navbar-nav">
        	<%
 		if(currentSession.getAttribute("CurrentUser") != null){
-			out.println("<ui><a href=account.jsp>My Account</a>"+"<li>Invoices</li>"+"<li>Change Password</li>"+
-						"</ui>");
+			out.println("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown role=button aria-expanded=false>My Account <span class=caret></span></a><ul class='dropdown-menu'><li><a>My Details</a></li>"+"<li><a href=WebController?code=5>Invoices</a></li>"+"<li><a href>Change Password</a></li>"+
+					"</ul></li>");
 		}
 		else{
 			
 		}
 	%>
-        <li><a href="#">All Cars</a></li>
-        <li><a href="#">Available Cars</a></li> 
-        <li><a href="#">Unavailable Cars</a></li> 
+        <li><a href="WebController?code=1">All Cars</a></li>
+        <li><a href="WebController?code=2">Available Cars</a></li> 
+        <li><a href="WebController?code=3">Unavailable Cars</a></li> 
       </ul>
       <div class=navbar-right>
       <%
       	if(currentSession.getAttribute("CurrentUser") != null){
-			out.println("<button type=button class='btn btn-default navbar-btn' onClick=login.jsp>Logout</button>");
+			out.println("<a href=WebController?code=4><button type=button class='btn btn-default navbar-btn'>Logout</button></a>");
       	}
       	else{
-      		out.println("<button type=button class='btn btn-default navbar-btn'>Login</button>");
-      		out.println("<a href=#><button type=button class='btn btn-default navbar-btn'>Register</button>");
+      		out.println("<a href=login.jsp><button type=button class='btn btn-default navbar-btn'>Login/Register</button></a>");
       	}
       %>
       </div>
