@@ -1,11 +1,13 @@
 package hire.car.a2b.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class DataLink implements IDataLink {
 
@@ -111,5 +113,21 @@ public class DataLink implements IDataLink {
 
 		return rs;
 	}
+
+	public ResultSet getAvailableCarsForRental(LocalDate startDate, LocalDate endDate){
+		ResultSet rs = null;
+		try{
+			CallableStatement statement = connection.prepareCall("Call available_vehicles_for_dates(?,?)");
+			statement.setDate(1, Date.valueOf(startDate));
+			statement.setDate(2, Date.valueOf(endDate));
+			rs = statement.executeQuery();
+			
+		}
+		catch(SQLException e){
+			System.out.println("Exception occured: " + e.getMessage());
+		}
+		return rs;
+	}
+	
 
 }

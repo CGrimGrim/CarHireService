@@ -2,6 +2,7 @@ package hire.car.a2b.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 import hire.car.a2b.*;
 
 public interface IHireService {
@@ -40,4 +41,5 @@ public interface IHireService {
 	
 	public abstract Customer validateCustomer(String username, String passwordEntered);
 
+	public abstract ArrayList<Car> listAllVehiclesAvailableForDates(LocalDate startDate, LocalDate endDate);
 }

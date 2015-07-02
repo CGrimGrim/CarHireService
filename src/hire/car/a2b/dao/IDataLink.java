@@ -47,5 +47,7 @@ public interface IDataLink {
 	 */
 	public abstract ResultSet getUserInfo(String username);
 	
+	public abstract ResultSet getAvailableCarsForRental(LocalDate startDate, LocalDate endDate);
+	
 	
 }

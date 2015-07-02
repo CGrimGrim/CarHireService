@@ -41,14 +41,14 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
        	<%
-		if(currentSession.getAttribute("CurrentUser") != null){
-			out.println("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown role=button aria-expanded=false>My Account <span class=caret></span></a><ul class='dropdown-menu'><li><a>My Details</a></li>"+"<li><a href=WebController?code=5>Invoices</a></li>"+"<li><a href>Change Password</a></li>"+
-					"</ul></li>");
-		}
-		else{
-			
-		}
-	%>
+			if(currentSession.getAttribute("CurrentUser") != null){
+				out.println("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown role=button aria-expanded=false>My Account <span class=caret></span></a><ul class='dropdown-menu'><li><a>My Details</a></li>"+"<li><a href=WebController?code=5>Invoices</a></li>"+"<li><a href>Change Password</a></li>"+
+						"</ul></li>");
+			}
+			else{
+				
+			}
+		%>
         <li><a href="WebController?code=1">All Cars</a></li>
         <li><a href="WebController?code=2">Available Cars</a></li> 
         <li><a href="WebController?code=3">Unavailable Cars</a></li> 

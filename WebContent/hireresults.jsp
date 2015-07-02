@@ -1,20 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.*"
+		 import="hire.car.a2b.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Hire</title>
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <title>Insert title here</title>
 </head>
-<body style="background-image: url(resources/CarBackgroundImage.jpg); background-size: 100% auto; background-repeat: no-repeat">
+<body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <%
 	HttpSession currentSession = request.getSession(false);
+	ArrayList<Car> listCars = null;
+	if(currentSession.getAttribute("AvailableCars") != null){
+		listCars = (ArrayList<Car>)currentSession.getAttribute("AvailableCars");
+	}
 %>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -59,41 +65,42 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
- 
 <div class="row">
-	<div class="col-sm-6">
+	<div class="col-sm-10 col-sm-offset-1 table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<th>Registration Number</th>
+				<th>Make</th>
+				<th>Model</th>
+				<th>Fuel type</th>
+				<th>Engine size</th>
+				<th>Group name</th>
+				<th>Daily rate</th>
+				<th></th>
+			</thead>
+				<%
+					if(listCars == null){
+						out.println("<tr align=center><td colspan=7>No results at this time</td></tr>");
+					}
+					else{
+					 out.println("<tbody>");
+						for(Car c : listCars){
+							out.println("<tr>");
+							out.println("<td>"+c.getRegistrationNumber()+"</td>");
+							out.println("<td>"+c.getMake()+"</td>");
+							out.println("<td>"+c.getModel()+"</td>");
+							out.println("<td>"+c.getFuelType()+"</td>");
+							out.println("<td>"+c.getEngineSize()+"</td>");
+							out.println("<td>"+c.getGroupName()+"</td>");
+							out.println("<td>£"+c.getDailyRate()+"</td>");
+							//out.println("<td><form method=post action=WebController><input type=hidden value="+c.getRegistrationNumber()+" name=desiredVehicleReg><input type=submit value=Hire></form></td>");
+							out.println("</tr>");
+						}
+					  out.println("</tbody>");
+					}
+				%>
+		</table>
 	</div>
-	<div class="col-sm-6">		
-		<form class="col-sm-8 col-sm-offset-2" action="WebController" method="post">
-		<div class="panel panel-default" style="opacity: 0.82;">
-		<div class="panel-heading"> <h4 class="text-left">Hire a Car</h4> </div>
-		<div class="panel-body">
-			<div class="form-group">
-				<label>Start Date</label>
-				<input type="date" class="form-control" name="hireStartDate">
-			</div>
-			<div class="form-group">
-				<label>End Date</label>
-				<input type="date" class="form-control" name="hireEndDate">
-			</div>
-			<div class="form-group">
-				<label>Car Category</label>
-				<select class="form-control" name="carCategory">
-						<option value=1>A</option>
-						<option value=2>B</option>
-						<option value=3>C</option>
-						<option value=4>D</option>
-						<option value=5>Any</option>
-				</select>
-			</div>
-			<input type="hidden" name="code" value=3>
-			<div class="form-group">
-				<input type="submit" class="btn btn-primary btn-block" value="submit">
-			</div>
-			</div>
-			 </div>
-		</form>
-		</div>
- </div>
+</div>
 </body>
 </html>

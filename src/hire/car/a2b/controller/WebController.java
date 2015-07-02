@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import hire.car.a2b.service.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import hire.car.a2b.*;
@@ -71,6 +73,8 @@ public class WebController extends HttpServlet {
 			customerInvoices(request, response);
 			response.sendRedirect("invoices.jsp");
 			break;
+		case 6:
+			
 		default:
 			break;
 		}
@@ -88,6 +92,10 @@ public class WebController extends HttpServlet {
 			break;
 		case 2: //register
 			registerCustomer(request,response);
+			break;
+		case 3:
+			getAvailableVehiclesForDates(request, response);
+			response.sendRedirect("hireresults.jsp");
 			break;
 		default:
 			break;
@@ -129,5 +137,14 @@ public class WebController extends HttpServlet {
 		System.out.println("Customer ID: " + cust.getId());
 		ArrayList<Invoice> invoices = srv.listCustomersInvoices(cust.getId());
 		session.setAttribute("CustomerInvoices", invoices);
+	}
+	
+	public void getAvailableVehiclesForDates(HttpServletRequest request, HttpServletResponse response){
+		HttpSession session = request.getSession();
+		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate hireStart = LocalDate.parse(request.getParameter("hireStartDate"), dt);
+		LocalDate hireEnd = LocalDate.parse(request.getParameter("hireEndDate"), dt);
+		ArrayList<Car> cars = srv.listAllVehiclesAvailableForDates(hireStart, hireEnd);
+		session.setAttribute("AvailableCars", cars);
 	}
 }
