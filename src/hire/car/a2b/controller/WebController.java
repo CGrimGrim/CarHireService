@@ -144,6 +144,8 @@ public class WebController extends HttpServlet {
 		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate hireStart = LocalDate.parse(request.getParameter("hireStartDate"), dt);
 		LocalDate hireEnd = LocalDate.parse(request.getParameter("hireEndDate"), dt);
+		session.setAttribute("HireStart", hireStart);
+		session.setAttribute("HireEnd", hireEnd);
 		ArrayList<Car> cars = srv.listAllVehiclesAvailableForDates(hireStart, hireEnd);
 		session.setAttribute("AvailableCars", cars);
 	}

@@ -130,7 +130,7 @@ CREATE TABLE `invoices` (
   KEY `vehicle_id` (`vehicle_id`),
   CONSTRAINT `invoices_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`),
   CONSTRAINT `invoices_ibfk_2` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicles` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ CREATE TABLE `invoices` (
 
 LOCK TABLES `invoices` WRITE;
 /*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
-INSERT INTO `invoices` VALUES (1,1,1,'2015-06-08','2015-06-12',40.00,14915,15000,0,1),(2,2,2,'2015-06-10','2015-06-11',20.00,6680,6780,0,4),(3,3,3,'2015-06-08','2015-06-08',30.00,2168,2300,0,5),(4,3,4,'2015-06-11','2015-06-12',40.00,546,600,0,5);
+INSERT INTO `invoices` VALUES (1,1,1,'2015-06-08','2015-06-12',40.00,14915,15000,0,1),(2,2,2,'2015-06-10','2015-06-11',20.00,6680,6780,0,4),(3,3,3,'2015-06-08','2015-06-08',30.00,2168,2300,0,5),(4,3,4,'2015-06-11','2015-06-12',40.00,546,600,0,5),(5,3,2,'2015-07-04','2015-07-10',60.00,6780,NULL,0,NULL);
 /*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,10 +319,10 @@ SET character_set_client = @saved_cs_client;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `available_vehicles_for_dates`(in startDate date, in endDate date)
 Begin
-	Select vehicles.id, vehicles.registration_num, vehicles.make, vehicles.model, vehicles.fuel_type, vehicles.engine_size, vehicle_groups.group_name, vehicle_groups.daily_rate, (DateDiff(@endDate, @startDate) * vehicle_groups.daily_rate) as "Total Cost" from vehicles
+	Select vehicles.id, vehicles.registration_num, vehicles.make, vehicles.model, vehicles.fuel_type, vehicles.engine_size, vehicle_groups.group_name, vehicle_groups.daily_rate, (DateDiff(endDate, startDate) * vehicle_groups.daily_rate) as "Total Cost" from vehicles
     inner join vehicle_groups
     on vehicles.group_id = vehicle_groups.id
-    where vehicles.id not in (select vehicles.id from vehicles inner join invoices  on vehicles.id = invoices.vehicle_id where (hire_start between @startDate AND @endDate ) OR (hire_end  between @startDate and @endDate) group by vehicles.id);End ;;
+    where vehicles.id not in (select vehicles.id from vehicles inner join invoices  on vehicles.id = invoices.vehicle_id where (hire_start between startDate AND endDate ) OR (hire_end  between startDate and endDate) group by vehicles.id);End ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -344,12 +344,12 @@ BEGIN
         Declare startMileage INT;
         Declare vehicleID INT;
         Declare totalHireCost Decimal;
-        SET userID = (Select id from users where uname = username);
+        SET userID = (select id from customer where uname = username);
         SET startMileage = (select mileage from vehicles where registration_num = reg);
         SET vehicleID = (select id from vehicles where registration_num = reg);
-		SET totalHireCost = sum(DateDIFF(end_date, start_date) * (select daily_rate from vehicle_groups inner join vehicle on vehicle.group_id = vehicle_groups.id));
+		SET totalHireCost = DateDIFF(endDate, startDate) * (select daily_rate from vehicle_groups inner join vehicles on vehicles.group_id = vehicle_groups.id where vehicles.registration_num = reg group by daily_rate);
         insert into invoices
-		values (null, userID, vehicleID, startDate, endDate, totalHireCost, startMileage, null, true, null);
+        values (null, userID, vehicleID, startDate, endDate, totalHireCost, startMileage, null, false, null);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -795,4 +795,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-12 14:54:38
+-- Dump completed on 2015-07-03 14:37:47

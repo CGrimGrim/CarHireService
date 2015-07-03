@@ -162,7 +162,7 @@ public class HireService implements IHireService {
 		ResultSet rs = dl.getAvailableCarsForRental(startDate, endDate);
 		try{
 			while(rs.next()){
-				vehicleList.add(new Car(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4).charAt(0), rs.getDouble(5), rs.getString(6), rs.getDouble(7)));
+				vehicleList.add(new Car(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5).charAt(0), rs.getDouble(6), rs.getString(7), rs.getDouble(8)));
 			}
 		}
 		catch(SQLException e){

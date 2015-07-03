@@ -129,5 +129,7 @@ public class DataLink implements IDataLink {
 		return rs;
 	}
 	
-
+	public void hireVehicle(LocalDate hireStart, LocalDate hireEnd, String vehicleRegistration, String username){
+		
+	}
 }

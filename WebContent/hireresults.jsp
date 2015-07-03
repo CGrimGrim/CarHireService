@@ -93,7 +93,7 @@
 							out.println("<td>"+c.getEngineSize()+"</td>");
 							out.println("<td>"+c.getGroupName()+"</td>");
 							out.println("<td>£"+c.getDailyRate()+"</td>");
-							//out.println("<td><form method=post action=WebController><input type=hidden value="+c.getRegistrationNumber()+" name=desiredVehicleReg><input type=submit value=Hire></form></td>");
+							out.println("<td><form method=post action=WebController><input type=hidden value="+c.getRegistrationNumber()+" name=desiredVehicleReg><input type=submit value=Hire></form></td>");
 							out.println("</tr>");
 						}
 					  out.println("</tbody>");
